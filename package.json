@@ -10,7 +10,8 @@
     "express3-handlebars": "latest",
     "socket.io": "~0.9.16",
     "passport": "~0.1.17",
-    "passport-google": "~0.3.0"
+    "passport-google": "~0.3.0",
+    "node-xmpp": "~0.10.5"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
