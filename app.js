@@ -4,9 +4,10 @@ var express = require('express'),
     http = require('http'),
     path = require('path')
     app = express(),
-    authRoutes = require('./routes/auth');
+    authRoutes = require('./routes/auth'),
+    Primus = require('primus');
 
-console.log(authRoutes);
+
 app.configure(function(){
     app.set('port', process.env.PORT || 3456);
     app.set('views', __dirname + '/views'); 
@@ -28,6 +29,10 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 authRoutes.routes(app);
+
+var server = http.createServer(app)
+  , primus = new Primus(server, {  });
+
 http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port') + " in " + app.get('env') +" mode");
 });

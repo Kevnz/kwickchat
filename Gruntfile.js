@@ -66,10 +66,14 @@ module.exports = function (grunt) {
                 }
             }
         },
-        compass: {
+        sass: {
             dist: {
                 options: {
-                config: 'config.rb'
+                    includePaths: ['sass/'],
+                    outputStyle: 'nested'
+                },
+                files: {
+                    'public/css/style.css': 'sass/style.scss'
                 }
             }
         }
@@ -78,7 +82,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-yui-config');
-    grunt.loadNpmTasks('grunt-contrib-compass'); 
+    grunt.loadNpmTasks('grunt-sass'); 
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.registerTask('default',  ['jshint','compass','yuiConfig', 'copy']);
 };

@@ -8,7 +8,6 @@
   "dependencies": {
     "express": "latest",
     "express3-handlebars": "latest",
-    "socket.io": "~0.9.16",
     "passport": "~0.1.17",
     "passport-google": "~0.3.0",
     "node-xmpp": "~0.10.5",
@@ -21,12 +20,13 @@
     "primus": "~1.4.7"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-yui-config": "~0.4.0",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-notify": "~0.2.7",
     "grunt-contrib-jshint": "~0.6.2",
     "grunt-contrib-compass": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.1"
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-sass": "~0.8.1"
   }
 }
