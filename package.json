@@ -17,7 +17,8 @@
     "passport-yahoo-oauth": "~0.1.2",
     "passport-google-plus": "~0.1.1",
     "passport-google-oauth": "~0.1.5",
-    "primus": "~1.4.7"
+    "primus": "~1.4.7",
+    "qconf": "~2.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
