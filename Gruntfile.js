@@ -10,7 +10,7 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: ['public/js/*', 'public/js/**.js','sass/*.scss', 'app.js','lib/*', 'views/*.jade'],
+            files: ['frontend/js/*', 'frontend/js/**.js','frontend/sass/*.scss', 'app.js','lib/*','routes/**.js', 'views/*.handlebars'],
             tasks: [ 'jshint', 'compass', 'yuiConfig','config-copy', 'copy'],
             options: {
                 livereload: true,
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
             
             }, 
             lib_test: {
-                src: ['public/js/**.js','lib/*.js', 'routes/*.js']
+                src: ['frontend/js/**.js','lib/*.js', 'routes/*.js', 'app.js']
             }
         },
         yuiConfig: {
@@ -69,11 +69,11 @@ module.exports = function (grunt) {
         sass: {
             dist: {
                 options: {
-                    includePaths: ['sass/'],
+                    includePaths: ['frontend/sass/'],
                     outputStyle: 'nested'
                 },
                 files: {
-                    'public/css/style.css': 'sass/style.scss'
+                    'public/css/style.css': 'frontend/sass/style.scss'
                 }
             }
         }
