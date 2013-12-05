@@ -1,8 +1,9 @@
 var express = require('express'),
     exphbs  = require('express3-handlebars'),
     routes = require('./routes'),
+    websockets = require('./websockets'),
     http = require('http'),
-    path = require('path')
+    path = require('path'),
     app = express(),
     authRoutes = require('./routes/auth'),
     Primus = require('primus');
@@ -28,12 +29,14 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+
 authRoutes.routes(app);
 
-var server = http.createServer(app)
-  , primus = new Primus(server, {  });
+var server = http.createServer(app), 
+    primus = new Primus(server,  { transformer: 'engine.io' });
+
+websockets.init(primus);
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port') + " in " + app.get('env') +" mode");
 });
-

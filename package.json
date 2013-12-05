@@ -18,7 +18,8 @@
     "passport-google-plus": "~0.1.1",
     "passport-google-oauth": "~0.1.5",
     "primus": "~1.4.7",
-    "qconf": "~2.2.0"
+    "qconf": "~2.2.0",
+    "engine.io": "~0.7.12"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

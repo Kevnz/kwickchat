@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         },
         watch: {
             files: ['frontend/js/*', 'frontend/js/**.js','frontend/sass/*.scss', 'app.js','lib/*','routes/**.js', 'views/*.handlebars'],
-            tasks: [ 'jshint', 'compass', 'yuiConfig','config-copy', 'copy'],
+            tasks: [ 'jshint', 'copy'],
             options: {
                 livereload: true,
             }
@@ -35,7 +35,9 @@ module.exports = function (grunt) {
                     YUI: true,
                     console: true,
                     exports: true,
-                    require: true
+                    require: true,
+                    process: true,
+                    __dirname: true
                 },
  
                     ignores: ['public/js/lib/*.js']
@@ -84,5 +86,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-yui-config');
     grunt.loadNpmTasks('grunt-sass'); 
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.registerTask('default',  ['jshint','compass','yuiConfig', 'copy']);
+    grunt.registerTask('default',  ['jshint', 'copy']);
 };
