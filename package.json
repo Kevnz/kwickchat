@@ -19,7 +19,8 @@
     "passport-google-oauth": "~0.1.5",
     "primus": "~1.4.7",
     "qconf": "~2.2.0",
-    "engine.io": "~0.7.12"
+    "engine.io": "~0.7.12",
+    "primus-rooms": "~2.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

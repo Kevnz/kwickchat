@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         },
         watch: {
             files: ['frontend/js/*', 'frontend/js/**.js','frontend/sass/*.scss', 'app.js','lib/*','routes/**.js', 'views/*.handlebars'],
-            tasks: [ 'jshint', 'copy'],
+            tasks: [ 'jshint','sass', 'copy'],
             options: {
                 livereload: true,
             }
