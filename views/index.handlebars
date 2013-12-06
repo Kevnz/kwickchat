@@ -7,61 +7,89 @@
         <p> Welcome to {{title}}</p>
         <div id="status"> </div>
         <button id="connect" class="pure-button"> Connect </button>
-        <button id="send" class="pure-button"> Send </button>
+        <button id="send" class="pure-button"> Send </button> 
+        <button id="broadcast" class="pure-button"> Broadcast </button>
     </div>
 <script>
 YUI().use('node-base', 'event-base', function (Y) {
-	var primus;
-	var primusInit = function click() {
-      if (primus) primus.end();
+    var primus;
 
-      primus = new Primus();
-
-      primus.on('reconnect', function reconnect(opts) {
-        Y.log('reconnect', 'Reconnecting', 'We are <strong>scheduling</strong> a new reconnect attempt. This is attempt <strong>'+ opts.attempt +'</strong> and will trigger a reconnect operation in <strong>'+ opts.timeout +'</strong> ms.');
-        document.getElementById('connect').innerHTML = 'reconnecting';
-      });
-
-      primus.on('reconnect', function reconnect() {
-        Y.log('reconnect', 'Reconnect', 'Starting the reconnect attempt, hopefully we get a connection!');
-      });
-
-      primus.on('online', function online() {
-        Y.log('network', 'Online', 'We have regained control over our internet connection.');
-      });
-
-      primus.on('offline', function online() {
-        Y.log('network', 'Offline', 'We lost our internet connection.');
-      });
-
-      primus.on('open', function open() {
-        Y.log('open', 'Open', 'The connection has been established.');
-        document.getElementById('connect').innerHTML = 'connected';
-      });
-
-      primus.on('error', function error(err) {
-        Y.log('error', 'Erorr', 'An unknown error has occured <code>'+ err.message +'</code>');
-      });
-
-      primus.on('data', function incoming(data) {
-        Y.log('data', 'Received data', 'string' === typeof data ? data : '<pre><code>'+ JSON.stringify(data, null, 2) +'</code></pre>');
-      });
-
-      primus.on('end', function end() {
-        Y.log('end', 'End', 'The connection has ended.');
-        document.getElementById('connect').innerHTML = 'connect';
-      });
-
-      primus.on('close', function end() {
-        Y.log('close', 'close', 'We\'ve lost the connection to the server.');
-      });
+    var named = function () {
+        if (Y.UA.chrome > 0) return 'Chrome'; 
+        if (Y.UA.gecko > 0) return 'Gecko'; 
+        if (Y.UA.ie > 0) return 'IE'; 
     }
-	Y.one('#connect').on('click', primusInit)
+    var joinRoom = function (room) { 
+        primus.write({room: room, action: 'join' });
 
-	Y.one('#send').on('click', function (e) {
-		e.preventDefault();
-		primus.write('message from a click');;
+    };
+    var leaveRoom = function (room) {
+        primus.write({room: room, action: 'leave' });
+    }
+    
+    var primusInit = function init () {
+        if (primus) primus.end();
 
-	});
+        primus = new Primus();
+
+        primus.on('reconnect', function reconnect(opts) {
+        Y.log('reconnect', 'Reconnecting', 'We are <strong>scheduling</strong> a new reconnect attempt. This is attempt <strong>'+ opts.attempt +'</strong> and will trigger a reconnect operation in <strong>'+ opts.timeout +'</strong> ms.');
+            document.getElementById('connect').innerHTML = 'reconnecting';
+        });
+
+        primus.on('reconnect', function reconnect() {
+            Y.log('reconnect', 'Reconnect', 'Starting the reconnect attempt, hopefully we get a connection!');
+        });
+
+        primus.on('online', function online() {
+            Y.log('network', 'Online', 'We have regained control over our internet connection.');
+        });
+
+        primus.on('offline', function online() {
+            Y.log('network', 'Offline', 'We lost our internet connection.');
+        });
+
+        primus.on('open', function open() {
+            Y.log('open', 'Open', 'The connection has been established.');
+            document.getElementById('connect').innerHTML = 'connected';
+        });
+
+        primus.on('error', function error(err) {
+            Y.log('error', 'Erorr', 'An unknown error has occured <code>'+ err.message +'</code>');
+        });
+
+ 
+
+        primus.on('end', function end() {
+            Y.log('end', 'End', 'The connection has ended.');
+            document.getElementById('connect').innerHTML = 'connect';
+        });
+
+        primus.on('close', function end() {
+            Y.log('close', 'close', 'We\'ve lost the connection to the server.');
+        });
+        primus.on('data', function (data) {
+            console.log('data', 'Received data', 'string' === typeof data ? data : '<pre><code>'+ JSON.stringify(data, null, 2) +'</code></pre>');
+            console.log('The data from the room:', data);
+            console.log('The message from the room:', data.message);
+        });
+        joinRoom('testroom');
+    }
+    Y.one('#connect').on('click', primusInit)
+
+
+    Y.one('#broadcast').on('click', function (e) {
+        e.preventDefault();
+        Y.log('broadcast clicked');
+        console.log(primus);
+        primus.write({ room: 'testroom', message: 'Hello some one, I am '+ named() });
+    });
+    Y.one('#send').on('click', function (e) {
+        Y.log('send clicked');
+        e.preventDefault();
+        console.log(primus);
+        primus.write('message from a click from ' + named() );;
+
+    }); 
 }); 
 </script>

@@ -4,10 +4,12 @@ var express = require('express'),
     websockets = require('./websockets'),
     http = require('http'),
     path = require('path'),
+    expstate = require('express-state'),
     app = express(),
     authRoutes = require('./routes/auth'),
     Primus = require('primus');
 
+expstate.extend(app);
 
 app.configure(function(){
     app.set('port', process.env.PORT || 3456);
