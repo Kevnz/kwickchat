@@ -10,6 +10,14 @@
         <button id="send" class="pure-button"> Send </button> 
         <button id="broadcast" class="pure-button"> Broadcast </button>
     </div>
+    <div id="chat-window" class="pure-g-r">
+        <div class="pure-u-1-4">
+            <ul id="rooms">
+            </ul>
+        </div>
+        <div id="chat-window" class="pure-u-3-4">
+        </div>
+    </div>
 <script>
 YUI().use('node-base', 'event-base', function (Y) {
     var primus;
@@ -21,12 +29,17 @@ YUI().use('node-base', 'event-base', function (Y) {
     }
     var joinRoom = function (room) { 
         primus.write({room: room, action: 'join' });
+        Y.one('#rooms').append('<li id="room-link-' + room +'"><a href="#">' + room + '</a></li>');
+        Y.one('#chat-window').append('<li id="room-' + room +'"></div>')
 
     };
     var leaveRoom = function (room) {
         primus.write({room: room, action: 'leave' });
-    }
-    
+        Y.one('#room-link-' + room).destroy();
+    };
+    var showMessage = function (data) {
+
+    };
     var primusInit = function init () {
         if (primus) primus.end();
 
@@ -72,6 +85,7 @@ YUI().use('node-base', 'event-base', function (Y) {
             console.log('data', 'Received data', 'string' === typeof data ? data : '<pre><code>'+ JSON.stringify(data, null, 2) +'</code></pre>');
             console.log('The data from the room:', data);
             console.log('The message from the room:', data.message);
+            showMessage(data);
         });
         joinRoom('testroom');
     }
