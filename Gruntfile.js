@@ -42,30 +42,9 @@ module.exports = function (grunt) {
  
                     ignores: ['public/js/lib/*.js']
             
-            }, 
+            },
             lib_test: {
                 src: ['frontend/js/**.js','lib/*.js', 'routes/*.js', 'app.js']
-            }
-        },
-        yuiConfig: {
-            losing: {
-                options: {
-                    dest: 'public/yui_config.js',
-                    root: '/yui/build/',
-                    combine: true, 
-                    comboBase: 'http://localhost:3000/combo?', 
-                    groups: {
-                        losingApp: {
-                            combine: true,  
-                            root: '',
-                            modules: ['public/js/**.js'],
-                            processPath: function (p) {
-                                return p.replace('public', '');
-                            },
-                            excludeFiles: ['public/js/lib/**.js']
-                        }
-                    }
-                }
             }
         },
         sass: {
@@ -84,7 +63,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-yui-config');
-    grunt.loadNpmTasks('grunt-sass'); 
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.registerTask('default',  ['jshint', 'copy']);
+
+    grunt.registerTask('directory', 'Created required folders for build.', function() {
+        var fs = require('fs');
+        fs.exists('public/js', function (exists) {
+            if(!exists) {
+                fs.mkdirSync('public/js');
+                fs.mkdirSync('public/js/vendor');
+            }
+        });
+    });
+    grunt.registerTask('default',  ['jshint','directory','sass', 'copy']);
 };
