@@ -6,11 +6,31 @@
     <div class="content">
         <p> Welcome to {{title}}</p>
         <div id="status"> </div>
+        <form class="pure-form" id="sign-in-form">
+            <fieldset>
+                <legend>sign in to chat</legend>
+
+                <input id="login-name" type="text" placeholder="Name"> 
+
+                <label for="remember">
+                    <input id="remember" type="checkbox"> Remember me
+                </label>
+
+                <button id="sign-in" type="submit" class="pure-button pure-button-primary">Sign in</button>
+            </fieldset>
+            <fieldset class="hidden">
+                <legend>Send a Message</legend>
+
+                <textarea id="message-to-send"></textarea> 
+
+                <button id="send-message" class="pure-button pure-button-primary">Send</button>
+            </fieldset>
+        </form>
         <button id="connect" class="pure-button"> Connect </button>
         <button id="send" class="pure-button"> Send </button> 
         <button id="broadcast" class="pure-button"> Broadcast </button>
     </div>
-    <div id="chat-window" class="pure-g-r">
+    <div id="chat-pane" class="pure-g-r">
         <div class="pure-u-1-4">
             <ul id="rooms">
             </ul>
@@ -19,18 +39,28 @@
         </div>
     </div>
 <script>
-YUI().use('node-base', 'event-base', function (Y) {
+YUI().use('node', 'event', function (Y) {
     var primus;
-
+    var name;
     var named = function () {
         if (Y.UA.chrome > 0) return 'Chrome'; 
         if (Y.UA.gecko > 0) return 'Gecko'; 
         if (Y.UA.ie > 0) return 'IE'; 
     }
+    var signIn = function (login) {
+        name = login;
+        primusInit();
+        var frm = Y.one('fieldset:nth-child(1)');
+        console.log(frm);
+        frm.hide('fadeOut', function() {
+            Y.one('fieldset:nth-child(2)').removeClass('hidden');
+        });
+
+    }
     var joinRoom = function (room) { 
-        primus.write({room: room, action: 'join' });
-        Y.one('#rooms').append('<li id="room-link-' + room +'"><a href="#">' + room + '</a></li>');
-        Y.one('#chat-window').append('<li id="room-' + room +'"></div>')
+        primus.write({room: room, action: 'join', user:name });
+        Y.one('#rooms').appendChild('<li id="room-link-' + room +'"><a href="#">' + room + '</a></li>');
+        Y.one('#chat-window').appendChild('<div id="room-' + room +'"></div>');
 
     };
     var leaveRoom = function (room) {
@@ -38,7 +68,13 @@ YUI().use('node-base', 'event-base', function (Y) {
         Y.one('#room-link-' + room).destroy();
     };
     var showMessage = function (data) {
-
+        Y.log(data);
+        var chat = Y.one('#room-' + data.room);
+        if (chat) {
+            chat.appendChild('<div class="message">' +
+                '<span class="from">' +data.user + '</span>' + 
+                '<span class="message-body">' + data.message +'</span></div>');
+        }
     };
     var primusInit = function init () {
         if (primus) primus.end();
@@ -87,7 +123,7 @@ YUI().use('node-base', 'event-base', function (Y) {
             console.log('The message from the room:', data.message);
             showMessage(data);
         });
-        joinRoom('testroom');
+        joinRoom('lounge');
     }
     Y.one('#connect').on('click', primusInit)
 
@@ -98,6 +134,21 @@ YUI().use('node-base', 'event-base', function (Y) {
         console.log(primus);
         primus.write({ room: 'testroom', message: 'Hello some one, I am '+ named() });
     });
+    Y.one('#sign-in').on('click', function (e) {
+        e.preventDefault();
+        Y.log('broadcast clicked');
+        var name = Y.one('#login-name').get('value');
+        signIn(name);
+    });
+    Y.one('#send-message').on('click', function (e) {
+        e.preventDefault(); 
+        var message = { room: 'lounge', user:name, 
+            message: Y.one('#message-to-send').get('value') };
+        Y.one('#message-to-send').set('value','');
+        primus.write(message);
+        showMessage(message);
+
+    })
     Y.one('#send').on('click', function (e) {
         Y.log('send clicked');
         e.preventDefault();

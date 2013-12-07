@@ -45,7 +45,7 @@ exports.init = function (primus) {
             if (data.message) {
                 console.log('writing to room', room);
                 console.log('writing message', data.message);
-                spark.room(room).write({ user: data.user || 'unknown', message: data.message });
+                spark.room(room).write({ room: room, user: data.user || 'unknown', message: data.message });
             }
 
 

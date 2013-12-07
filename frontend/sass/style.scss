@@ -1,3 +1,5 @@
+@import "chat";
+
 body {
     font-family: sans-serif;
     color: #777;    
@@ -60,7 +62,9 @@ h1,h2,h3,h4,h5,h6 {
         background: #222;
     }
 }
-
+.hidden {
+    display: none;
+}
 @media (max-width: 767px) {
     #headerMenu {
         position: relative;
