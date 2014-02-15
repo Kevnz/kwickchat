@@ -1,0 +1,6 @@
+framework:
+- Mocha+Chai
+launch_in_dev:
+- Chrome
+- Firefox
+- IE

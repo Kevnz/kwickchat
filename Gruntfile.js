@@ -57,6 +57,31 @@ module.exports = function (grunt) {
                     'public/css/style.css': 'frontend/sass/style.scss'
                 }
             }
+        },
+bowerOrganiser: {
+          options: {
+            includeName: true
+          },
+          mapping: {
+            js: 'lib',
+            css: 'css',
+            less: 'less'
+          }
+        },
+        bowercopy: {
+            options: {
+                // Bower components folder will be removed afterwards
+                clean: true
+            },
+            libs: {
+                options: {
+                    destPrefix: 'public/js/libs'
+                },
+                files: { 
+                    'require.js': 'requirejs/require.js'
+                },
+            }
+     
         }
     });
 
@@ -65,7 +90,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-yui-config');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-copy');
-
+    grunt.loadNpmTasks('grunt-bower-organiser');
+    grunt.loadNpmTasks("grunt-bower-install-simple");
+    grunt.loadNpmTasks('grunt-bowercopy');
+    grunt.loadNpmTasks('grunt-bower-clean');
     grunt.registerTask('directory', 'Created required folders for build.', function() {
         var fs = require('fs');
         fs.exists('public/js', function (exists) {
@@ -75,5 +103,5 @@ module.exports = function (grunt) {
             }
         });
     });
-    grunt.registerTask('default',  ['jshint','directory','sass', 'copy']);
+    grunt.registerTask('default',  ['jshint','bowerOrganiser', 'directory','sass','bower-install-simple','copy']);
 };

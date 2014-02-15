@@ -1,0 +1,27 @@
+{
+  "name": "kwickchat",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Kevnz/kwickchat",
+  "authors": [
+    "Kevin Isom <kevin.isom@gmail.com>"
+  ],
+  "description": "Chat app",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.9",
+    "purecss": "~0.3.0",
+    "pure-typography": "*",
+    "pure-extras": "*",
+    "mocha": "~1.17.0",
+    "chai": "~1.8.1"
+  }
+}

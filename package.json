@@ -21,7 +21,8 @@
     "qconf": "~2.2.0",
     "engine.io": "~0.7.12",
     "primus-rooms": "~2.2.0",
-    "express-state": "~1.0.3"
+    "express-state": "~1.0.3",
+    "require-directory": "~1.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -31,6 +32,10 @@
     "grunt-contrib-jshint": "~0.6.2",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-sass": "~0.8.1",
-    "grunt-cli": "~0.1.11"
+    "grunt-cli": "~0.1.11",
+    "grunt-bower-organiser": "~0.7.5",
+    "grunt-bower-install-simple": "~0.9.1",
+    "grunt-bower-clean": "~0.2.1",
+    "grunt-bowercopy": "~0.4.1"
   }
 }
